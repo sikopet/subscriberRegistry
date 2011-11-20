@@ -1,4 +1,4 @@
-TRUNK=../../openbts/trunk
+TRUNK=../openbts-p2.8
 COM=$(TRUNK)/CommonLibs
 SQL=$(TRUNK)/sqlite3
 #SR=$(TRUNK)/subscriberRegistry/trunk-public-staging
