@@ -90,6 +90,7 @@ rand                  varchar(33) default '',
 sres                  varchar(33) default '',
 ki                    varchar(33) default '',
 kc                    varchar(33) default '',
+opc                   varchar(33) default '',
 cksn                  int(1) default 7,
 a3_a8                 varchar(45) default NULL,
 primary key(id)
