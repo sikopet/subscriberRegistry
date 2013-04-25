@@ -187,15 +187,14 @@ char *processBuffer(char *buffer)
 		// look for rand and sres in Authorization header (assume imsi same as in from)
 		string randx;
 		string sres;
-		// sip parser is not working reliably for Authorization, so we'll do the parsing
+		// FIXME: sip parser is not working reliably for Authorization, so we'll do the parsing
 		char *RAND = strcasestr(buffer, "nonce=");
 		char *SRES = strcasestr(buffer, "response=");
 		if (RAND && SRES) {
 			// find RAND digits
 			RAND += 6;
 			while (!isalnum(*RAND)) { RAND++; }
-			RAND[32] = 0;
-			int j=0;
+			int j = 0;
 			while(isalnum(RAND[j])) { j++; }
 			RAND[j] = '\0';
 			// find SRES digits
@@ -222,7 +221,7 @@ char *processBuffer(char *buffer)
 			    string a5 = imsiGetA5(imsi);
 			    unsigned a5_ver = 0;
 			    if ("MILENAGE" == a5) a5_ver = 3;
-			    if ("COMP128" == a5) a5_ver = 1;
+			    if ("COMP128v1" == a5) a5_ver = 1;
 			    osip_pack(response, 200, a5_ver, kc, (char *)"OK"); //pack into auth header and register it.
 			  LOG(INFO) << imsi << " success, registering for IP address " << remote_host;
 			  imsiSet(imsi, "ipaddr", remote_host);

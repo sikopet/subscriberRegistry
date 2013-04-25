@@ -188,9 +188,13 @@ bool authenticate(string imsi, string randx, string sres, string *kc)
 		memset(_auts, 0, sizeof(_auts));
 		static struct osmo_sub_auth_data auth_dat;
 
-		if (osmo_hexparse(randx.c_str(), Rand, 16) != 16) { LOG(ALERT) << "failed to parse RAND!"; return false; }
+		int par = osmo_hexparse(randx.c_str(), Rand, 16);
+		if (par < 1) {
+		    LOG(ALERT) << "failed to parse RAND " << randx << ", " << strlen(randx.c_str()) << ": " << par << ", parsed: " << string(osmo_hexdump_nospc(Rand, par));
+		    return false;
+		}
 
-		if (0 == a3a8.length() || "COMP128" == a3a8) {// rely on normal library routine
+		if (0 == a3a8.length() || "COMP128v1" == a3a8) {// rely on normal library routine
 		    auth_dat.type = OSMO_AUTH_TYPE_GSM;
 		    auth_dat.algo = OSMO_AUTH_ALG_COMP128v1;
 		    if (osmo_hexparse(ki.c_str(), auth_dat.u.gsm.ki, sizeof(auth_dat.u.gsm.ki)) < 0) {
